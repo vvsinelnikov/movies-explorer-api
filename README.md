@@ -1,5 +1,6 @@
 # Дипломный проект 
 Репозиторий проекта `Movies Explorer`, включающий API для авторизации и регистрации.
+https://api.bitfilms.nomoredomains.monster/
 
 Доделать
 * Переписать асинхронные функции на async / await
