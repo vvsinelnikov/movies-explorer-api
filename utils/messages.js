@@ -1,4 +1,5 @@
 const messages = {
+  serverError: 'Произошла ошибка',
   registeredAndSignedIn: 'Пользователь зарегистрирован и залогинен',
   signedIn: 'Пользователь залогинен',
   signedOut: 'Пользователь залогинен',

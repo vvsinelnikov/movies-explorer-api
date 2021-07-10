@@ -4,7 +4,6 @@ const {
   MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb',
   JWT_SECRET = 'vv-secret-key',
   SALT_ROUNDS = 8
-// eslint-disable-next-line no-undef
 } = process.env;
 
 const express = require('express');

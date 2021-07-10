@@ -8,7 +8,7 @@ module.exports.signup = (req, res, next) => {
   const { email, password, name } = req.body;
   let userData = '';
   User.find({ email })
-    .then((user) => { if (user.length > 0) { throw new ConflictErr(messages['userExists']); } })
+    .then((user) => { if (user.length > 0) { throw new ConflictErr(messages.userExists); } })
     .then(() => bcrypt.hash(password, Number(SALT_ROUNDS)))
     .then((hash) => User.create({ email, password: hash, name }))
     .then((user) => {
@@ -20,7 +20,6 @@ module.exports.signup = (req, res, next) => {
       // secure: true, // закомментировать для работы Постмана
       httpOnly: true,
     }).send({ _id: userData._id, email: userData.email, name: userData.name }))
-    // .send({ message: messages['registeredAndSignedIn'] }))
     .catch((err) => { next(err); });
 };
 
@@ -35,7 +34,7 @@ module.exports.signin = (req, res, next) => {
         sameSite: 'None',
         // secure: true, // закомментировать для работы Постмана
         httpOnly: true,
-      }).send({ message: messages['signedIn'] });
+      }).send({ message: messages.signedIn });
     })
     .catch((err) => { next(err); });
 };
@@ -45,5 +44,5 @@ module.exports.signout = (req, res) => {
   res.cookie('jwt', '', {
     expires: new Date(Date.now()),
     httpOnly: true,
-  }).send({ message: messages['signedOut'] });
+  }).send({ message: messages.signedOut });
 };

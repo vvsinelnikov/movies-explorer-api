@@ -17,6 +17,9 @@ mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
 });
 
+// *** Логгирование запросов в /request.log ***
+app.use(requestLogger);
+
 // *** Безопасность ***
 app.use(helmet()); // установка 'безопасных' заголовков
 const limiter = rateLimit(rateLimitSettings);
@@ -26,9 +29,6 @@ app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-// *** Логгирование запросов в /request.log ***
-app.use(requestLogger);
 
 // // *** Разрешаения CORS ***
 // const allowedCors = [

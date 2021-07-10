@@ -5,23 +5,23 @@ const AuthRequiredErr = require('../errors/auth-required-err')
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: [true, messages['emailRequired']],
-    unique: [true, messages['emailUnique']],
+    required: [true, messages.emailRequired],
+    unique: [true, messages.emailUnique],
     validate: {
       validator(email) {
         return validator.isEmail(email);
       },
-      message: messages['invalidEmail'],
+      message: messages.invalidEmail,
     },
   },
   password: {
     type: String,
-    required: [true, messages['passwordRequired']],
+    required: [true, messages.passwordRequired],
     select: false,
   },
   name: {
     type: String,
-    required: [true, messages['nameRequired']],
+    required: [true, messages.nameRequired],
     minlength: 2,
     maxlength: 30,
   }
@@ -29,18 +29,17 @@ const userSchema = new mongoose.Schema({
 
 // аутентификация по email и password
 userSchema.statics.findUserByCredentials = function (email, password) {
-  if (!email) { return Promise.reject(new AuthRequiredErr(messages['emailMissing'])); }
-  if (!password) { return Promise.reject(new AuthRequiredErr(messages['passwordMissing'])); }
+  if (!email) { return Promise.reject(new AuthRequiredErr(messages.emailMissing)); }
+  if (!password) { return Promise.reject(new AuthRequiredErr(messages.passwordMissing)); }
   return this.findOne({ email }).select('+password')
     .then((user) => {
-      if (!user) { return Promise.reject(new AuthRequiredErr(messages['invalidCredentials'])); }
+      if (!user) { return Promise.reject(new AuthRequiredErr(messages.invalidCredentials)); }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
-          if (!matched) { return Promise.reject(new AuthRequiredErr(messages['invalidCredentials'])); }
-          // return user;
+          if (!matched) { return Promise.reject(new AuthRequiredErr(messages.invalidCredentials)); }
           return { _id: user._id }
         });
     });
 };
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('User', userSchema);
