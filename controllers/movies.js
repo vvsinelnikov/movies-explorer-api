@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const messages = require('../utils/messages');
 const NotFoundErr = require('../errors/not-found-err');
 const NotAllowed = require('../errors/not-allowed-err');
+const ConflictErr = require('../errors/conflict-err');
 const User = require('../models/user');
 
 // возвращает все сохранённые пользователем фильмы
@@ -17,7 +18,9 @@ module.exports.createMovie = (req, res, next) => {
   const {
     country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId
   } = req.body;
-  Movie.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id })
+  Movie.findOne({movieId: movieId})
+    .then((movie) => { if (movie) { throw new ConflictErr(messages.movieExists); }})
+    .then(() => Movie.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id }) )
     .then((movie) => {
       res.send(movie);
       User.findByIdAndUpdate(req.user._id,

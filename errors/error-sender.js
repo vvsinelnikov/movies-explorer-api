@@ -1,7 +1,9 @@
 const messages = require('../utils/messages');
 
 const errorSender = (err, req, res, next) => {
-  res.status(err.statusCode || 500).send({err: err.message || messages.serverError});
+  const status = err.statusCode || 500;
+  const message = err.message || messages.serverError;
+  res.status(status).send({ err: message });
   return next();
 }
 

@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 const movieSchema = new mongoose.Schema({
   country: {
-    type: Number,
+    type: String,
     required: [true, messages.countryRequired],
     validate: {
       validator(v) {
@@ -35,7 +35,7 @@ const movieSchema = new mongoose.Schema({
     }
   },
   year: {
-    type: String,
+    type: Number,
     required: [true, messages.yearRequired],
     validate: {
       validator(v) {
