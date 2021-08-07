@@ -5,9 +5,8 @@ const ConflictErr = require('../errors/conflict-err');
 
 // создаёт пользователя с переданными в теле email, password и name
 module.exports.signup = (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { name, email, password } = req.body;
   let userData = '';
-  console.log(req.body)
   User.find({ email })
     .then((user) => { if (user.length > 0) { throw new ConflictErr(messages.userExists); } })
     .then(() => bcrypt.hash(password, Number(SALT_ROUNDS)))
