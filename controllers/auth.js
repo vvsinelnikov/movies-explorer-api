@@ -17,7 +17,7 @@ module.exports.signup = (req, res, next) => {
     .then((token) => res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       sameSite: 'None',
-      // secure: true, // закомментировать для работы Постмана
+      secure: true, // закомментировать для работы Постмана
       httpOnly: true,
     }).send({ _id: userData._id, email: userData.email, name: userData.name }))
     .catch((err) => { next(err); });
@@ -32,7 +32,7 @@ module.exports.signin = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         sameSite: 'None',
-        // secure: true, // закомментировать для работы Постмана
+        secure: true, // закомментировать для работы Постмана
         httpOnly: true,
       }).send({ message: messages.signedIn });
     })
