@@ -14,6 +14,7 @@ const helmet = require('helmet'); // установка 'безопасных' �
 const rateLimit = require('express-rate-limit'); // ограничение количества запросов
 const bodyParser = require('body-parser'); // парсинг запросов
 const cookieParser = require('cookie-parser'); // парсинг кук
+const cors = require('cors'); // обработка CORS заголовков
 const { celebrate, Joi, errors } = require('celebrate'); // валдация запросов
 const bcrypt = require('bcryptjs'); // шифрование JWT
 const jwt = require('jsonwebtoken'); // парсинг JWT
@@ -29,6 +30,7 @@ module.exports = {
   app, mongoose,
   helmet, rateLimit,
   bodyParser, cookieParser,
+  cors,
   celebrate, Joi, errors,
   bcrypt, jwt,
   validator,
