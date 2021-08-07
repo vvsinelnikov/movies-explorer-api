@@ -31,25 +31,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // // *** Разрешаения CORS ***
-// const allowedCors = [
-//   'http://localhost:3000',
-// ];
-// app.options('*', (req, res) => {
-//   const { origin } = req.headers;
-//   if (allowedCors.includes(origin)) { res.header('Access-Control-Allow-Origin', origin); }
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   res.header('Access-Control-Allow-Methods', 'GET, HEAD, PUT, PATCH, POST, DELETE');
-//   res.header('Access-Control-Allow-Credentials', 'true');
-//   res.sendStatus(200);
-// });
-// app.use((req, res, next) => {
-//   const { origin } = req.headers;
-//   if (allowedCors.includes(origin)) { res.header('Access-Control-Allow-Origin', origin); }
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   res.header('Access-Control-Allow-Methods', 'GET, HEAD, PUT, PATCH, POST, DELETE');
-//   res.header('Access-Control-Allow-Credentials', 'true');
-//   next();
-// });
+const allowedCors = [
+  'http://localhost:3000',
+  'https://bitfilms.nomoredomains.monster',
+];
+app.options('*', (req, res) => {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) { res.header('Access-Control-Allow-Origin', origin); }
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, PUT, PATCH, POST, DELETE');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) { res.header('Access-Control-Allow-Origin', origin); }
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, HEAD, PUT, PATCH, POST, DELETE');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 // *** Роуты ***
 app.use('/', require('./routes/index'));
