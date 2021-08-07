@@ -3,7 +3,7 @@ const messages = require('../utils/messages');
 const User = require('../models/user');
 const ConflictErr = require('../errors/conflict-err');
 
-// создаёт пользователя с переданными в теле email, password и name
+// создаёт пользователя с переданными в теле name, email, password
 module.exports.signup = (req, res, next) => {
   const { name, email, password } = req.body;
   let userData = '';
@@ -19,7 +19,7 @@ module.exports.signup = (req, res, next) => {
       sameSite: 'None',
       secure: true, // закомментировать для работы Постмана
       httpOnly: true,
-    }).send({ _id: userData._id, email: userData.email, name: userData.name }))
+    }).send({ _id: userData._id, name: userData.name, email: userData.email }))
     .catch((err) => { next(err); });
 };
 
