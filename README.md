@@ -1,4 +1,4 @@
-# Дипломный проект 
+# Дипломный проект (Back End)
 Репозиторий проекта `Movies Explorer`, включающий API для авторизации и регистрации.
 https://api.bitfilms.nomoredomains.monster/
 
