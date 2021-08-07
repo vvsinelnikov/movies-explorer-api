@@ -7,6 +7,7 @@ const ConflictErr = require('../errors/conflict-err');
 module.exports.signup = (req, res, next) => {
   const { email, password, name } = req.body;
   let userData = '';
+  console.log(req.body)
   User.find({ email })
     .then((user) => { if (user.length > 0) { throw new ConflictErr(messages.userExists); } })
     .then(() => bcrypt.hash(password, Number(SALT_ROUNDS)))

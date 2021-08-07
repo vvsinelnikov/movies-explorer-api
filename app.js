@@ -33,6 +33,7 @@ app.use(cookieParser());
 // *** Разрешаения CORS ***
 const allowedCors = [
   'http://localhost:3000',
+  'http://localhost:3001',
   'https://bitfilms.nomoredomains.monster',
 ];
 app.options('*', (req, res) => {
