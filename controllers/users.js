@@ -21,7 +21,7 @@ module.exports.updateMyProfile = (req, res, next) => {
     .then(() => User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true }))
     .then((user) => {
       if (!user) { throw new NotFoundErr(messages.userNotFound); }
-      return res.send(user);
+      return res.send({ _id: user._id, name: user.name, email: user.email });
     })
     .catch((err) => { next(err); });
 };

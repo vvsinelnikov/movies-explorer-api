@@ -4,7 +4,7 @@ const {
   app, mongoose,
   helmet, rateLimit,
   bodyParser, cookieParser,
-  // cors,
+  cors,
   errorSender,
   errors
 } = require('./utils/constants')
@@ -35,8 +35,12 @@ app.use(cookieParser());
 // Реализовано через Ngnix
 
 // Вариант 1
-// app.use(cors());
-// app.options(cors());
+// const corsOptions = {
+//   origin: 'http://localhost:3001',
+//   credentials: true
+// };
+// app.use(cors(corsOptions));
+// app.options(cors(corsOptions));
 
 // Вариант 2
 // const allowedCors = [
