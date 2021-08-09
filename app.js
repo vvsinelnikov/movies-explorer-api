@@ -4,7 +4,7 @@ const {
   app, mongoose,
   helmet, rateLimit,
   bodyParser, cookieParser,
-  cors,
+  // cors,
   errorSender,
   errors
 } = require('./utils/constants')
