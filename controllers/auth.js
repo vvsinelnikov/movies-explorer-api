@@ -17,8 +17,8 @@ module.exports.signup = (req, res, next) => {
     .then((token) => res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       sameSite: 'None',
-      // domain: 'bitfilms.nomoredomains.monster',
-      // secure: true,
+      domain: 'bitfilms.nomoredomains.monster',
+      secure: true,
       httpOnly: true,
     }).send({ _id: userData._id, name: userData.name, email: userData.email }))
     .catch((err) => { next(err); });
@@ -36,8 +36,8 @@ module.exports.signin = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         sameSite: 'None',
-        // domain: 'bitfilms.nomoredomains.monster',
-        // secure: true,
+        domain: 'bitfilms.nomoredomains.monster',
+        secure: true,
         httpOnly: true,
       }).send({ _id: userData._id, name: userData.name, email: userData.email });
     })
