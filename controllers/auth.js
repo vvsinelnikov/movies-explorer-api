@@ -17,8 +17,8 @@ module.exports.signup = (req, res, next) => {
     .then((token) => res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       sameSite: 'None',
-      domain: 'bitfilms.nomoredomains.monster',
-      secure: true, // закомментировать для работы Постмана
+      // domain: 'bitfilms.nomoredomains.monster',
+      secure: true,
       httpOnly: true,
     }).send({ _id: userData._id, name: userData.name, email: userData.email }))
     .catch((err) => { next(err); });
@@ -33,16 +33,22 @@ module.exports.signin = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         sameSite: 'None',
-        domain: 'bitfilms.nomoredomains.monster',
-        secure: true, // закомментировать для работы Постмана
+        // domain: 'bitfilms.nomoredomains.monster',
+        secure: true,
         httpOnly: true,
       }).send({ message: messages.signedIn });
+      // console.log('*********************** cookie sent *******************************')
+      // console.log('*********************** cookie sent *******************************')
+      // console.log('*********************** cookie sent *******************************')
     })
     .catch((err) => { next(err); });
 };
 
 // удаляет куку пользователя
 module.exports.signout = (req, res) => {
+  // console.log('*********************** logged out *******************************')
+  // console.log('*********************** logged out *******************************')
+  // console.log('*********************** logged out *******************************')
   res.cookie('jwt', '', {
     expires: new Date(Date.now()),
     httpOnly: true,
@@ -51,12 +57,17 @@ module.exports.signout = (req, res) => {
 
 // проверяет куку пользователя
 module.exports.checkAuth = (req, res) => {
+  // console.log('**************************** cookie check *************************************')
+  // console.log('**************************** cookie check *************************************')
+  // console.log('**************************** cookie check *************************************')
+  console.log(JSON.parse(JSON.stringify(req.cookies)))
   const token = req.cookies.jwt;
   let payload;
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     res.send({ message: 'auth failed' });
+    return
   }
   res.send(payload);
 }
