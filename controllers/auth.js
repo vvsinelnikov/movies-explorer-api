@@ -48,18 +48,18 @@ module.exports.signin = (req, res, next) => {
 };
 
 // удаляет куку пользователя
-module.exports.signout = (req, res) => {
+module.exports.signout = () => {
   // console.log('*********************** logged out *******************************')
   // console.log('*********************** logged out *******************************')
   // console.log('*********************** logged out *******************************')
-  res.cookie('jwt', '', {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  }).send({ message: messages.signedOut });
+  // res.cookie('jwt', '', {
+  //   expires: new Date(Date.now()),
+  //   httpOnly: true,
+  // }).send({ message: messages.signedOut });
 };
 
 // проверяет куку пользователя
-module.exports.authcheck = (req, res) => {
+module.exports.authcheck = (req, res, next) => {
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
@@ -69,7 +69,7 @@ module.exports.authcheck = (req, res) => {
   if (token) {
     return jwt.verify(token, JWT_SECRET, function (err, decoded) {
         if (err) {
-            return res.send({ message: 'auth failed – not encoded' });
+            return next({ message: 'auth failed – not encoded' });
         }
         return res.send(decoded)
     });
