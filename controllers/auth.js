@@ -13,12 +13,12 @@ module.exports.signup = (req, res, next) => {
     .then((hash) => User.create({ email, password: hash, name }))
     .then((user) => {
       userData = user;
-      return jwt.sign({ '_id': user._id, 'name': user.mane, 'email': user.email }, JWT_SECRET, { expiresIn: '7d' }); })
+      return jwt.sign({ _id: user._id, name: user.mane, email: user.email }, JWT_SECRET, { expiresIn: '7d' }); })
     .then((token) => res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       sameSite: 'None',
       // domain: 'bitfilms.nomoredomains.monster',
-      secure: true,
+      // secure: true,
       httpOnly: true,
     }).send({ _id: userData._id, name: userData.name, email: userData.email }))
     .catch((err) => { next(err); });
@@ -31,13 +31,13 @@ module.exports.signin = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       userData = user;
-      return jwt.sign({ '_id': user._id, 'name': user.mane, 'email': user.email }, JWT_SECRET, { expiresIn: '7d' }); })
+      return jwt.sign({ _id: user._id, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '7d' }); })
     .then((token) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         sameSite: 'None',
         // domain: 'bitfilms.nomoredomains.monster',
-        secure: true,
+        // secure: true,
         httpOnly: true,
       }).send({ _id: userData._id, name: userData.name, email: userData.email });
     })
