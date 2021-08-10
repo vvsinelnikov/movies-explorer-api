@@ -37,7 +37,8 @@ app.use(cookieParser());
 // Вариант 1
 // const corsOptions = {
 //   origin: 'http://localhost:3001',
-//   credentials: true
+//   credentials: true,
+//   exposedHeaders: ["set-cookie"],
 // };
 // app.use(cors(corsOptions));
 // app.options(cors(corsOptions));

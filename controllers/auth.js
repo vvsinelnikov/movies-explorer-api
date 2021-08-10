@@ -13,7 +13,7 @@ module.exports.signup = (req, res, next) => {
     .then((hash) => User.create({ email, password: hash, name }))
     .then((user) => {
       userData = user;
-      return jwt.sign({ _id: user._id, name: user.mane, email: user.email }, JWT_SECRET, { expiresIn: '7d' }); })
+      return jwt.sign({ _id: user._id, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '7d' }); })
     .then((token) => res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       sameSite: 'None',
