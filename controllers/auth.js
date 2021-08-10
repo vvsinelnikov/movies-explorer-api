@@ -13,7 +13,7 @@ module.exports.signup = (req, res, next) => {
     .then((hash) => User.create({ email, password: hash, name }))
     .then((user) => {
       userData = user;
-      return jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }); })
+      return jwt.sign({ '_id': user._id, 'name': user.mane, 'email': user.email }, JWT_SECRET, { expiresIn: '7d' }); })
     .then((token) => res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
       sameSite: 'None',
@@ -31,7 +31,7 @@ module.exports.signin = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       userData = user;
-      return jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }); })
+      return jwt.sign({ '_id': user._id, 'name': user.mane, 'email': user.email }, JWT_SECRET, { expiresIn: '7d' }); })
     .then((token) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
@@ -40,18 +40,12 @@ module.exports.signin = (req, res, next) => {
         secure: true,
         httpOnly: true,
       }).send({ _id: userData._id, name: userData.name, email: userData.email });
-      // console.log('*********************** cookie sent *******************************')
-      // console.log('*********************** cookie sent *******************************')
-      // console.log('*********************** cookie sent *******************************')
     })
     .catch((err) => { next(err); });
 };
 
 // удаляет куку пользователя
 module.exports.signout = () => {
-  // console.log('*********************** logged out *******************************')
-  // console.log('*********************** logged out *******************************')
-  // console.log('*********************** logged out *******************************')
   // res.cookie('jwt', '', {
   //   expires: new Date(Date.now()),
   //   httpOnly: true,
@@ -60,11 +54,6 @@ module.exports.signout = () => {
 
 // проверяет куку пользователя
 module.exports.authcheck = (req, res) => {
-  // console.log('**************************** cookie check *************************************')
-  // console.log('**************************** cookie check *************************************')
-  // console.log('**************************** cookie check *************************************')
-  // console.log(req)
-  // console.log(JSON.parse(JSON.stringify(req.signedCookies)))
   const token = req.cookies.jwt;
   let payload;
   try {
