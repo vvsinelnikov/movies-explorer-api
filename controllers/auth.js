@@ -56,11 +56,11 @@ module.exports.signout = (req, res) => {
 };
 
 // проверяет куку пользователя
-module.exports.checkAuth = (req, res) => {
+module.exports.checkauth = (req, res) => {
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
-  console.log(JSON.parse(JSON.stringify(req.cookies)))
+  // console.log(JSON.parse(JSON.stringify(req.cookies)))
   const token = req.cookies.jwt;
   let payload;
   try {
@@ -70,4 +70,4 @@ module.exports.checkAuth = (req, res) => {
     return
   }
   res.send(payload);
-}
+};
