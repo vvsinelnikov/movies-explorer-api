@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('../utils/constants')
-const { signup, signin, signout } = require('../controllers/auth'); // контроллеры регистрации и авторизации
+const { signup, signin, signout, checkAuth } = require('../controllers/auth'); // контроллеры регистрации и авторизации
 const router = require('express').Router();
 const auth = require('../middlewares/auth'); // аутентификация
 
@@ -21,6 +21,8 @@ router.post('/signin', celebrate({
     password: Joi.string().required(),
   }),
 }), signin);
+
+router.post('/auth', checkAuth);
 
 router.post('/signout', auth, signout);
 

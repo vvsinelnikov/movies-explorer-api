@@ -48,3 +48,16 @@ module.exports.signout = (req, res) => {
     httpOnly: true,
   }).send({ message: messages.signedOut });
 };
+
+// проверяет куку пользователя
+module.exports.checkAuth = (req, res) => {
+  const token = req.cookies.jwt;
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    res.send({ message: 'auth failed' });
+  }
+  req.user = payload;
+  res.send(payload);
+}
