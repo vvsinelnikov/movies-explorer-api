@@ -27,8 +27,11 @@ module.exports.signup = (req, res, next) => {
 // проверяет переданные в теле почту и пароль и возвращает JWT
 module.exports.signin = (req, res, next) => {
   const { email, password } = req.body;
+  let userData = '';
   User.findUserByCredentials(email, password)
-    .then((user) => { return jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }); })
+    .then((user) => {
+      userData = user;
+      return jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }); })
     .then((token) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
@@ -36,7 +39,7 @@ module.exports.signin = (req, res, next) => {
         // domain: 'bitfilms.nomoredomains.monster',
         secure: true,
         httpOnly: true,
-      }).send({ message: messages.signedIn });
+      }).send({ _id: userData._id, name: userData.name, email: userData.email });
       // console.log('*********************** cookie sent *******************************')
       // console.log('*********************** cookie sent *******************************')
       // console.log('*********************** cookie sent *******************************')
@@ -56,18 +59,27 @@ module.exports.signout = (req, res) => {
 };
 
 // проверяет куку пользователя
-module.exports.checkauth = (req, res) => {
+module.exports.authcheck = (req, res) => {
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
-  // console.log(JSON.parse(JSON.stringify(req.cookies)))
+  // console.log(req)
+  // console.log(JSON.parse(JSON.stringify(req.signedCookies)))
   const token = req.cookies.jwt;
-  let payload;
-  try {
-    payload = jwt.verify(token, JWT_SECRET);
-  } catch (err) {
-    res.send({ message: 'auth failed' });
-    return
+  if (token) {
+    return jwt.verify(token, JWT_SECRET, function (err, decoded) {
+        if (err) {
+            return res.send({ message: 'auth failed – not encoded' });
+        }
+        return res.send(decoded)
+    });
   }
-  res.send(payload);
+  return res.json({ message: 'auth failed – no token' });
+  // let payload;
+  // try {
+  //   payload = jwt.verify(token, JWT_SECRET);
+  // } catch (err) {
+  //   return res.send({ message: 'auth failed' });
+  // }
+  // res.send(payload);
 };

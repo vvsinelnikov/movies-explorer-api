@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('../utils/constants')
-const { signup, signin, signout, checkauth } = require('../controllers/auth'); // контроллеры регистрации и авторизации
+const { signup, signin, signout, authcheck } = require('../controllers/auth'); // контроллеры регистрации и авторизации
 const router = require('express').Router();
 const auth = require('../middlewares/auth'); // аутентификация
 
@@ -22,7 +22,7 @@ router.post('/signin', celebrate({
   }),
 }), signin);
 
-router.get('/checkauth', checkauth);
+router.post('/auth', authcheck);
 
 router.post('/signout', auth, signout);
 
