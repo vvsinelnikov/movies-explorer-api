@@ -22,7 +22,7 @@ router.post('/signin', celebrate({
   }),
 }), signin);
 
-router.post('/auth', checkAuth);
+router.get('/auth', checkAuth);
 
 router.post('/signout', auth, signout);
 

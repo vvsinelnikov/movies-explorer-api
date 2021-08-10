@@ -58,6 +58,5 @@ module.exports.checkAuth = (req, res) => {
   } catch (err) {
     res.send({ message: 'auth failed' });
   }
-  req.user = payload;
   res.send(payload);
 }
