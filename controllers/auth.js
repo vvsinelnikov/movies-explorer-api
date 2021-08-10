@@ -59,27 +59,18 @@ module.exports.signout = () => {
 };
 
 // проверяет куку пользователя
-module.exports.authcheck = (req, res, next) => {
+module.exports.authcheck = (req, res) => {
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
   // console.log('**************************** cookie check *************************************')
   // console.log(req)
   // console.log(JSON.parse(JSON.stringify(req.signedCookies)))
   const token = req.cookies.jwt;
-  if (token) {
-    return jwt.verify(token, JWT_SECRET, function (err, decoded) {
-        if (err) {
-            return next({ message: 'auth failed – not encoded' });
-        }
-        return res.send(decoded)
-    });
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    return res.send({ message: 'auth failed' });
   }
-  return res.json({ message: 'auth failed – no token' });
-  // let payload;
-  // try {
-  //   payload = jwt.verify(token, JWT_SECRET);
-  // } catch (err) {
-  //   return res.send({ message: 'auth failed' });
-  // }
-  // res.send(payload);
+  res.send(payload);
 };
