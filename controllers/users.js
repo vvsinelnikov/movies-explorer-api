@@ -1,3 +1,4 @@
+const { JWT_SECRET, jwt } = require('../utils/constants');
 const User = require('../models/user');
 const messages = require('../utils/messages');
 const NotFoundErr = require('../errors/not-found-err');
@@ -21,7 +22,8 @@ module.exports.updateMyProfile = (req, res, next) => {
     .then(() => User.findByIdAndUpdate(req.user._id, { email, name }, { new: true, runValidators: true }))
     .then((user) => {
       if (!user) { throw new NotFoundErr(messages.userNotFound); }
-      return res.send({ _id: user._id, name: user.name, email: user.email });
+      const token = jwt.sign({ _id: user._id, name: name, email: email }, JWT_SECRET, { expiresIn: '7d' });
+      return res.send({jwt: token, _id: user._id, name: name, email: email });
     })
     .catch((err) => { next(err); });
 };

@@ -14,6 +14,16 @@ const movieSchema = new mongoose.Schema({
       message: messages.invalidSymbols,
     }
   },
+  description: {
+    type: String,
+    required: [true, messages.descriptionRequired],
+    validate: {
+      validator(v) {
+        return regexp.name.test(v);
+      },
+      message: messages.invalidSymbols,
+    }
+  },
   director: {
     type: String,
     required: [true, messages.directorRequired],
@@ -34,64 +44,39 @@ const movieSchema = new mongoose.Schema({
       message: messages.invalidTime,
     }
   },
-  year: {
+  id: {
     type: Number,
-    required: [true, messages.yearRequired],
-    validate: {
-      validator(v) {
-        return regexp.year.test(v);
-      },
-      message: messages.invalidYear,
-    }
+    required: [true, messages.movieIdRequired]
   },
-  description: {
+  image: {
+    type: Object,
+    required: [true, messages.imageRequired],
+    // validate: {
+    //   validator(v) {
+    //     return regexp.url.test(v);
+    //   },
+    //   message: messages.invalidUrl,
+    // }
+  },
+  // thumbnail: {
+  //   type: String,
+  //   required: [true, messages.thumbnailRequired],
+  //   validate: {
+  //     validator(v) {
+  //       return regexp.url.test(v);
+  //     },
+  //     message: messages.invalidUrl,
+  //   }
+  // },
+  nameEN: {
     type: String,
-    required: [true, messages.descriptionRequired],
+    required: [true, messages.nameENRequired],
     validate: {
       validator(v) {
-        return regexp.name.test(v);
+        return regexp.nameEN.test(v);
       },
       message: messages.invalidSymbols,
     }
-  },
-  image: {
-    type: String,
-    required: [true, messages.imageRequired],
-    validate: {
-      validator(v) {
-        return regexp.url.test(v);
-      },
-      message: messages.invalidUrl,
-    }
-  },
-  trailer: {
-    type: String,
-    required: [true, messages.trailerRequired],
-    validate: {
-      validator(v) {
-        return regexp.url.test(v);
-      },
-      message: messages.invalidUrl,
-    }
-  },
-  thumbnail: {
-    type: String,
-    required: [true, messages.thumbnailRequired],
-    validate: {
-      validator(v) {
-        return regexp.url.test(v);
-      },
-      message: messages.invalidUrl,
-    }
-  },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: User,
-    required: [true, messages.ownerRequired]
-  },
-  movieId: {
-    type: Number,
-    required: [true, messages.movieIdRequired]
   },
   nameRU: {
     type: String,
@@ -103,15 +88,30 @@ const movieSchema = new mongoose.Schema({
       message: messages.invalidSymbols,
     }
   },
-  nameEN: {
+  trailerLink: {
     type: String,
-    required: [true, messages.nameENRequired],
+    required: [true, messages.trailerRequired],
     validate: {
       validator(v) {
-        return regexp.nameEN.test(v);
+        return regexp.url.test(v);
       },
-      message: messages.invalidSymbols,
+      message: messages.invalidUrl,
     }
+  },
+  year: {
+    type: Number,
+    required: [true, messages.yearRequired],
+    validate: {
+      validator(v) {
+        return regexp.year.test(v);
+      },
+      message: messages.invalidYear,
+    }
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User,
+    required: [true, messages.ownerRequired]
   }
 });
 
