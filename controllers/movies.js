@@ -15,7 +15,7 @@ module.exports.getLikedMovies = (req, res, next) => {
 // создаёт фильм
 module.exports.createMovie = (req, res, next) => {
   const movie = req.body;
-  Movie.findOne({id: movie.id})
+  Movie.findOne({id: movie.id, owner: req.user._id})
     .then((movie) => { if (movie) { throw new ConflictErr(messages.movieExists); }})
     .then(() => Movie.create({...movie, owner: req.user._id }) )
     .then((movie) => { res.send(movie) })
@@ -24,7 +24,6 @@ module.exports.createMovie = (req, res, next) => {
 
 // удаляет сохранённый фильм по id
 module.exports.deleteMovie = (req, res, next) => {
-  // Movie.findById(req.params.id)
   Movie.findOne({id: req.params.id})
     .then((movie) => {
       if (!movie) { throw new NotFoundErr(messages.movieNotFound); }

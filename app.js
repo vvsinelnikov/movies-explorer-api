@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // *** Разрешаения CORS ***
-// Реализовано через Ngnix
+// Вариант 3 (рабочий) – реализовано через Ngnix
 
 // Вариант 1
 // const corsOptions = {
