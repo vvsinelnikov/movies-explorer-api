@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 require('dotenv').config();
 const {
   PORT, MONGO_URL,
@@ -24,7 +25,7 @@ app.use(requestLogger);
 // *** Безопасность ***
 app.use(helmet()); // установка 'безопасных' заголовков
 const limiter = rateLimit(rateLimitSettings);
-app.use(limiter);
+// app.use(limiter);
 
 // *** Парсинг запросов и кук ***
 app.use(bodyParser.json());
